@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="280dp"
+    android:viewportWidth="100"
+    android:viewportHeight="280">
+
+    <!-- Tapón/corcho -->
+    <path
+        android:fillColor="#FF8B4513"
+        android:pathData="M38,8 Q38,4 50,4 Q62,4 62,8 L62,18 Q62,22 50,22 Q38,22 38,18 Z"/>
+
+    <!-- Aro metálico del cuello -->
+    <path
+        android:fillColor="#FFAAAAAA"
+        android:pathData="M36,18 L64,18 L64,24 L36,24 Z"/>
+
+    <!-- Cuello botella -->
+    <path
+        android:fillColor="#FF1A3A2A"
+        android:pathData="M40,24 L60,24 L60,58 L40,58 Z"/>
+
+    <!-- Hombros (transición cuello→cuerpo) -->
+    <path
+        android:fillColor="#FF1A3A2A"
+        android:pathData="M40,54 Q28,62 22,78 L78,78 Q72,62 60,54 Z"/>
+
+    <!-- Cuerpo principal -->
+    <path
+        android:fillColor="#FF1A3A2A"
+        android:pathData="M22,76 L78,76 L78,248 Q78,264 50,264 Q22,264 22,248 Z"/>
+
+    <!-- Etiqueta (papel blanco-crema) -->
+    <path
+        android:fillColor="#FFF5F0E8"
+        android:pathData="M26,120 L74,120 L74,210 L26,210 Z"/>
+
+    <!-- Borde superior etiqueta -->
+    <path
+        android:fillColor="#FFCC9900"
+        android:pathData="M26,120 L74,120 L74,126 L26,126 Z"/>
+
+    <!-- Borde inferior etiqueta -->
+    <path
+        android:fillColor="#FFCC9900"
+        android:pathData="M26,204 L74,204 L74,210 L26,210 Z"/>
+
+    <!-- Texto "PB" en etiqueta -->
+    <path
+        android:fillColor="#FF1A3A2A"
+        android:pathData="M34,148 L34,172 L38,172 L38,162 L44,162 L44,172 L48,172 L48,148 L44,148 L44,158 L38,158 L38,148 Z"/>
+    <path
+        android:fillColor="#FF1A3A2A"
+        android:pathData="M52,148 L52,172 L60,172 Q66,172 66,164 Q66,160 63,158 Q66,156 66,152 Q66,148 60,148 Z M56,152 L59,152 Q62,152 62,154 Q62,156 59,156 L56,156 Z M56,160 L59,160 Q62,160 62,163 Q62,168 59,168 L56,168 Z"/>
+
+    <!-- Reflejo izquierdo (brillo) -->
+    <path
+        android:fillColor="#20FFFFFF"
+        android:pathData="M26,80 Q24,100 24,140 L30,140 Q30,100 32,80 Z"/>
+
+    <!-- Reflejo cuello -->
+    <path
+        android:fillColor="#20FFFFFF"
+        android:pathData="M42,26 L44,26 L44,56 L42,56 Z"/>
+
+    <!-- Sombra derecha sutil -->
+    <path
+        android:fillColor="#15000000"
+        android:pathData="M70,80 Q74,100 74,140 L78,140 L78,80 Z"/>
+
+    <!-- Base redondeada inferior -->
+    <path
+        android:fillColor="#FF153020"
+        android:pathData="M22,248 Q22,264 50,264 Q78,264 78,248 L78,256 Q78,272 50,272 Q22,272 22,256 Z"/>
+
+</vector>

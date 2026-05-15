@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_home_gradient"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/ivBottleAnim"
+        android:layout_width="120dp"
+        android:layout_height="336dp"
+        android:src="@drawable/ic_bottle"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/cd_bottle"/>
+
+    <TextView
+        android:id="@+id/tvGameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/splash_title"
+        android:textColor="@color/orange"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.15"
+        android:layout_marginTop="28dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/splash_subtitle"
+        android:textColor="#55FFFFFF"
+        android:textSize="12sp"
+        android:letterSpacing="0.25"
+        android:textAllCaps="true"
+        android:layout_marginTop="6dp"/>
+
+</LinearLayout>
