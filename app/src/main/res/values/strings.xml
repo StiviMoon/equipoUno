@@ -1,0 +1,70 @@
+<resources>
+
+    <!-- ============================================================
+         APP
+         ============================================================ -->
+    <string name="app_name">Pico Botella</string>
+
+    <!-- ============================================================
+         SPLASH
+         ============================================================ -->
+    <string name="splash_title">pico botella</string>
+    <string name="splash_subtitle">el juego de la verdad</string>
+
+    <!-- ============================================================
+         HOME
+         ============================================================ -->
+    <string name="home_btn_spin">Presióname</string>
+    <string name="home_countdown_prefix"></string>  <!-- si quieres "¡" antes del número -->
+
+    <!-- ============================================================
+         TOOLBAR
+         ============================================================ -->
+    <string name="toolbar_btn_rate_cd">Calificar app</string>
+    <string name="toolbar_btn_audio_cd">Audio</string>
+    <string name="toolbar_btn_instructions_cd">Instrucciones</string>
+    <string name="toolbar_btn_challenges_cd">Retos</string>
+    <string name="toolbar_btn_share_cd">Compartir</string>
+
+    <!-- ============================================================
+         INSTRUCCIONES
+         ============================================================ -->
+    <string name="instructions_title">Instrucciones</string>
+    <string name="instructions_body">1. Siéntense en círculo.\n\n2. Pongan la botella en el centro.\n\n3. Presionen el botón para girar la botella.\n\n4. La persona a quien apunte debe cumplir un reto.\n\n5. ¡Diviértanse!</string>
+
+    <!-- ============================================================
+         RETOS
+         ============================================================ -->
+    <string name="challenges_title">Retos</string>
+    <string name="challenges_empty">No hay retos aún.\nPresiona + para agregar uno.</string>
+    <string name="challenges_add">Agregar reto</string>
+    <string name="challenges_edit">Editar reto</string>
+    <string name="challenges_delete">Eliminar reto</string>
+    <string name="challenges_delete_confirm">¿Eliminar este reto?</string>
+    <string name="challenges_hint">Escribe el reto aquí…</string>
+
+    <!-- ============================================================
+         ACCIONES GENERALES
+         ============================================================ -->
+    <string name="action_save">Guardar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="action_close">Cerrar</string>
+
+    <!-- ============================================================
+         CONTENT DESCRIPTIONS (accesibilidad)
+         ============================================================ -->
+    <string name="cd_bottle">Botella giratoria</string>
+    <!-- toolbar CDs ya definidos arriba como toolbar_btn_*_cd -->
+
+    <!-- ============================================================
+         ALIASES LEGACY (no borrar — código ya los referencia)
+         ============================================================ -->
+    <string name="btn_press">@string/home_btn_spin</string>
+    <string name="cd_rate">@string/toolbar_btn_rate_cd</string>
+    <string name="cd_audio">@string/toolbar_btn_audio_cd</string>
+    <string name="cd_instructions">@string/toolbar_btn_instructions_cd</string>
+    <string name="cd_challenges">@string/toolbar_btn_challenges_cd</string>
+    <string name="cd_share">@string/toolbar_btn_share_cd</string>
+
+</resources>

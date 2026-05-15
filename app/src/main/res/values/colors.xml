@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ============================================================
+         PALETA PRINCIPAL — cambiar aquí afecta toda la app
+         ============================================================ -->
+
+    <!-- Marca -->
+    <color name="brand_primary">#FFFF6600</color>       <!-- naranja principal -->
+    <color name="brand_primary_dark">#FFCC5200</color>  <!-- naranja presionado / variante -->
+    <color name="brand_primary_disabled">#80FF6600</color> <!-- naranja deshabilitado 50% opacidad -->
+
+    <!-- Fondos -->
+    <color name="bg_splash">#FF000000</color>            <!-- splash: negro puro -->
+    <color name="bg_home">#FF3D1F0A</color>              <!-- home: marrón oscuro (simula madera) -->
+    <color name="bg_screen">#FF111111</color>            <!-- pantallas secundarias: gris muy oscuro -->
+    <color name="bg_toolbar">#FF000000</color>           <!-- toolbar: negro -->
+    <color name="bg_dialog">#FF1A1A1A</color>            <!-- diálogos -->
+    <color name="bg_card">#FF222222</color>              <!-- cards / items lista -->
+
+    <!-- Texto -->
+    <color name="text_primary">#FFFFFFFF</color>         <!-- texto principal: blanco -->
+    <color name="text_secondary">#FFB0B0B0</color>       <!-- texto secundario: gris claro -->
+    <color name="text_accent">#FFFF6600</color>          <!-- texto destacado: naranja (= brand_primary) -->
+    <color name="text_hint">#FF666666</color>            <!-- placeholders / hints -->
+    <color name="text_on_brand">#FFFFFFFF</color>        <!-- texto sobre botones naranjas -->
+
+    <!-- Divisores / bordes -->
+    <color name="divider">#FF333333</color>
+    <color name="border">#FF444444</color>
+
+    <!-- Estados -->
+    <color name="error">#FFCF6679</color>
+    <color name="success">#FF4CAF50</color>
+    <color name="warning">#FFFFC107</color>
+
+    <!-- Aliases legacy (no borrar — los layouts ya los usan) -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="orange">#FFFF6600</color>
+    <color name="orange_dark">#FFCC5200</color>
+    <color name="gray_dark">#FF2B2B2B</color>
+    <color name="orange_disabled">#80FF6600</color>
+
+</resources>
