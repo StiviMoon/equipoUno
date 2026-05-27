@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RetoDao {
 
-    @Query("SELECT * FROM retos ORDER BY id ASC")
+    @Query("SELECT * FROM retos ORDER BY id DESC")
     fun getAll(): Flow<List<Reto>>
 
     @Query("SELECT * FROM retos ORDER BY RANDOM() LIMIT 1")
