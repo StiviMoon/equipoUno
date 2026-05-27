@@ -12,8 +12,22 @@ import com.example.pb.R
 import com.example.pb.databinding.FragmentHomeBinding
 import com.example.pb.utils.startAnim
 import com.example.pb.viewmodel.AudioViewModel
+import com.example.pb.data.AppDatabase
+import com.example.pb.repository.PokemonRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+import android.app.Dialog
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.util.Log
+import java.net.HttpURLConnection
+import java.net.URL
 
 class HomeFragment : Fragment() {
 
@@ -21,6 +35,10 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val audioViewModel: AudioViewModel by activityViewModels()
+
+    companion object {
+        private const val TAG = "HomeFragment"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,20 +83,78 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             delay(2000L)
             binding.ivBottle.clearAnimation()
-            startCountdown()
+            showRandomRetoDialog()
         }
     }
 
-    private fun startCountdown() {
-        binding.tvCountdown.visibility = View.VISIBLE
+    private fun showRandomRetoDialog() {
         viewLifecycleOwner.lifecycleScope.launch {
-            for (i in 3 downTo 1) {
-                binding.tvCountdown.text = i.toString()
-                delay(1000L)
+            try {
+                // 1. Fetch random challenge from local DB (fast)
+                val dao = AppDatabase.getInstance(requireContext()).retoDao()
+                val randomReto = dao.getRandomReto()
+                val retoText = randomReto?.texto ?: "No hay retos disponibles."
+                Log.d(TAG, "Reto obtenido: $retoText")
+
+                // 2. Create and show the dialog IMMEDIATELY (don't wait for network)
+                val dialog = Dialog(requireContext())
+                dialog.setContentView(R.layout.dialog_random_reto)
+                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.window?.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                dialog.setCancelable(false) // Criterio 6: solo se cierra con "Cerrar"
+
+                val tvReto = dialog.findViewById<TextView>(R.id.tvReto)
+                val ivPokemon = dialog.findViewById<ImageView>(R.id.ivPokemon)
+                val btnCerrar = dialog.findViewById<Button>(R.id.btnCerrar)
+
+                tvReto.text = retoText // Criterio 3
+
+                btnCerrar.setOnClickListener {
+                    dialog.dismiss()
+                    resetButton()
+                    audioViewModel.resumeIfEnabled()
+                }
+
+                dialog.show() // Show dialog right away!
+                Log.d(TAG, "Diálogo mostrado exitosamente")
+
+                // 3. Load Pokemon image ASYNCHRONOUSLY (after dialog is already visible)
+                launch {
+                    try {
+                        val repository = PokemonRepository()
+                        val imageUrl = repository.getRandomPokemonImageUrl()
+                        Log.d(TAG, "Pokemon image URL: $imageUrl")
+
+                        imageUrl?.let { urlString ->
+                            val bitmap = withContext(Dispatchers.IO) {
+                                val url = URL(urlString)
+                                val connection = url.openConnection() as HttpURLConnection
+                                connection.connectTimeout = 5000
+                                connection.readTimeout = 5000
+                                connection.doInput = true
+                                connection.connect()
+                                val input = connection.inputStream
+                                BitmapFactory.decodeStream(input)
+                            }
+                            if (dialog.isShowing) {
+                                ivPokemon.setImageBitmap(bitmap)
+                                Log.d(TAG, "Imagen de Pokémon cargada")
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error cargando imagen de Pokémon", e)
+                    }
+                }
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Error mostrando diálogo de reto", e)
+                // Even if something fails, make sure the button resets
+                resetButton()
+                audioViewModel.resumeIfEnabled()
             }
-            binding.tvCountdown.visibility = View.INVISIBLE
-            resetButton()
-            audioViewModel.resumeIfEnabled()
         }
     }
 
