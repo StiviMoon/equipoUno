@@ -1,9 +1,13 @@
 package com.example.pb.ui.home
 
+import android.animation.ObjectAnimator
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +32,7 @@ import android.widget.TextView
 import android.util.Log
 import java.net.HttpURLConnection
 import java.net.URL
+import androidx.core.net.toUri
 
 class HomeFragment : Fragment() {
 
@@ -58,7 +63,10 @@ class HomeFragment : Fragment() {
 
         binding.btnPress.setOnClickListener { spinBottle() }
 
-        binding.customToolbar.setOnRateClick { /* HU 4.0 */ }
+        binding.customToolbar.setOnRateClick {
+            abrirCalificacion()
+        }
+
         binding.customToolbar.setOnAudioClick { audioViewModel.toggleAudio() }
         binding.customToolbar.setOnInstructionsClick {
             findNavController().navigate(R.id.action_home_to_instrucciones)
@@ -78,11 +86,19 @@ class HomeFragment : Fragment() {
         binding.btnPress.visibility = View.INVISIBLE
         audioViewModel.pauseTemporarily()
 
-        binding.ivBottle.startAnim(R.anim.bottle_spin)
-
         viewLifecycleOwner.lifecycleScope.launch {
-            delay(2000L)
-            binding.ivBottle.clearAnimation()
+            // Fase 1: contador 3, 2, 1, 0
+            binding.tvCountdown.visibility = View.VISIBLE
+            for (i in 3 downTo 0) {
+                binding.tvCountdown.text = i.toString()
+                delay(800L)
+            }
+            binding.tvCountdown.visibility = View.INVISIBLE
+
+            // Fase 2: girar botella
+            launchSpinAnimation()
+
+            delay(2600L)
             showRandomRetoDialog()
         }
     }
@@ -156,6 +172,25 @@ class HomeFragment : Fragment() {
                 audioViewModel.resumeIfEnabled()
             }
         }
+    }
+    private fun abrirCalificacion() {
+        val intent = android.content.Intent(
+            android.content.Intent.ACTION_VIEW,
+            getString(R.string.rate_app_url).toUri()
+        )
+        startActivity(intent)
+    }
+    private fun launchSpinAnimation() {
+        val randomAngle = (0..359).random().toFloat()
+        val current = binding.ivBottle.rotation % 360f
+        val target = current + (360f * 5) + randomAngle
+
+        binding.ivBottle.rotation = current
+        binding.ivBottle.animate()
+            .rotation(target)
+            .setDuration(2500)
+            .setInterpolator(DecelerateInterpolator())
+            .start()
     }
 
     private fun resetButton() {

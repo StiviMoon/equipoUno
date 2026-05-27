@@ -29,9 +29,8 @@
     <!-- ============================================================
          INSTRUCCIONES
          ============================================================ -->
-    <string name="instructions_title">Instrucciones</string>
-    <string name="instructions_body">1. Siéntense en círculo.\n\n2. Pongan la botella en el centro.\n\n3. Presionen el botón para girar la botella.\n\n4. La persona a quien apunte debe cumplir un reto.\n\n5. ¡Diviértanse!</string>
-
+    <string name="instructions_how_to_play">Los jugadores forman un círculo y en el centro colocan el dispositivo móvil, luego tocan el botón parpadeante para girar la botella. El jugador que señale la botella debe cumplir el reto que lanza la app, de lo contrario abandona el juego.</string>
+    <string name="instructions_who_wins">Gana el último jugador que no abandone el juego.</string>
     <!-- ============================================================
          RETOS
          ============================================================ -->
@@ -66,5 +65,8 @@
     <string name="cd_instructions">@string/toolbar_btn_instructions_cd</string>
     <string name="cd_challenges">@string/toolbar_btn_challenges_cd</string>
     <string name="cd_share">@string/toolbar_btn_share_cd</string>
-
+    <!-- ============================================================
+          SIMULAR CALIFICACION (NEQUI)
+         ============================================================ -->
+    <string name="rate_app_url">https://play.google.com/store/apps/details?id=com.nequi.MobileApp&amp;hl=es_419&amp;gl=es</string>
 </resources>

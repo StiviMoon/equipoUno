@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_home_gradient">
+    android:background="@drawable/bg_wood">
 
     <!-- Toolbar -->
     <com.example.pb.ui.toolbar.CustomToolbarView
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Botella — tamaño generoso, sin cortes -->
+    <!-- Botella vertical original -->
     <ImageView
         android:id="@+id/ivBottle"
         android:layout_width="120dp"
