@@ -56,7 +56,7 @@ class RetosFragment : Fragment() {
 
     private fun setupFab() {
         binding.fabAdd.setOnClickListener {
-            // HU 7.0: AddRetoDialog().show(childFragmentManager, "AddReto")
+            AgregarRetoDialog().show(childFragmentManager, AgregarRetoDialog.TAG)
         }
     }
 
