@@ -93,7 +93,7 @@ class HomeFragment : Fragment() {
                 // 1. Fetch random challenge from local DB (fast)
                 val dao = AppDatabase.getInstance(requireContext()).retoDao()
                 val randomReto = dao.getRandomReto()
-                val retoText = randomReto?.texto ?: "No hay retos disponibles."
+                val retoText = randomReto?.descripcion ?: "No hay retos disponibles."
                 Log.d(TAG, "Reto obtenido: $retoText")
 
                 // 2. Create and show the dialog IMMEDIATELY (don't wait for network)

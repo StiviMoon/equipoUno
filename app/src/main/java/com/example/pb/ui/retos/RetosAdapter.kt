@@ -9,17 +9,9 @@ import com.example.pb.databinding.ItemRetoBinding
 import com.example.pb.model.Reto
 
 class RetosAdapter(
-    private val onDeleteClick: (Reto) -> Unit
-) : ListAdapter<Reto, RetosAdapter.RetoViewHolder>(DiffCallback) {
-
-    inner class RetoViewHolder(private val binding: ItemRetoBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(reto: Reto) {
-            binding.tvRetoTexto.text = reto.texto
-            binding.btnDelete.setOnClickListener { onDeleteClick(reto) }
-        }
-    }
+    private val onEdit:   (Reto) -> Unit,
+    private val onDelete: (Reto) -> Unit
+) : ListAdapter<Reto, RetosAdapter.RetoViewHolder>(RetoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RetoViewHolder {
         val binding = ItemRetoBinding.inflate(
@@ -32,8 +24,31 @@ class RetosAdapter(
         holder.bind(getItem(position))
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Reto>() {
-        override fun areItemsTheSame(oldItem: Reto, newItem: Reto) = oldItem.id == newItem.id
-        override fun areContentsTheSame(oldItem: Reto, newItem: Reto) = oldItem == newItem
+    inner class RetoViewHolder(private val binding: ItemRetoBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(reto: Reto) {
+
+            binding.tvDescripcionReto.text = reto.descripcion
+
+
+            binding.btnEditar.setOnClickListener {
+                it.animate().scaleX(0.85f).scaleY(0.85f).setDuration(100).withEndAction {
+                    it.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
+                    onEdit(reto)
+                }.start()
+            }
+            binding.btnEliminar.setOnClickListener {
+                it.animate().scaleX(0.85f).scaleY(0.85f).setDuration(100).withEndAction {
+                    it.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
+                    onDelete(reto)
+                }.start()
+            }
+        }
+    }
+
+    class RetoDiffCallback : DiffUtil.ItemCallback<Reto>() {
+        override fun areItemsTheSame(a: Reto, b: Reto) = a.id == b.id
+        override fun areContentsTheSame(a: Reto, b: Reto) = a == b
     }
 }
