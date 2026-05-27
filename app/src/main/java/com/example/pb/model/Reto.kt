@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class Reto (
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val description: String,
+    val descripcion: String,
     val timestamp: Long = System.currentTimeMillis()
 )

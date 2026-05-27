@@ -11,7 +11,7 @@ import com.example.pb.model.Reto
 @Database(entities = [Reto::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase(){
 
-    abstract fun RetoDao(): RetoDao
+    abstract fun retoDao(): RetoDao
 
     companion object{
         @Volatile
