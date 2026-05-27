@@ -50,7 +50,7 @@ class RetosFragment : Fragment() {
 
     private fun setupRecyclerView() {
         adapter = RetosAdapter(
-            onEdit   = { reto -> /* HU 8.0: EditRetoDialog */ },
+            onEdit   = { reto -> EditarRetoDialog.newInstance(reto).show(childFragmentManager, EditarRetoDialog.TAG) },
             onDelete = { reto -> confirmarEliminar(reto) } // HU 9.0: DeleteRetoDialog
         )
         binding.rvRetos.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
