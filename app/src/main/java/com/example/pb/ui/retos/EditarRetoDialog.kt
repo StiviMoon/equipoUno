@@ -61,7 +61,7 @@ class EditarRetoDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Criterio 3: poblar EditText con descripción actual de la BD
-        val retoId = requireArguments().getLong(ARG_ID)
+        val retoId = requireArguments().getInt(ARG_ID)
         val descripcionActual = requireArguments().getString(ARG_DESCRIPCION, "")
         binding.etReto.setText(descripcionActual)
         binding.etReto.setSelection(descripcionActual.length)
