@@ -66,5 +66,8 @@
     <string name="cd_instructions">@string/toolbar_btn_instructions_cd</string>
     <string name="cd_challenges">@string/toolbar_btn_challenges_cd</string>
     <string name="cd_share">@string/toolbar_btn_share_cd</string>
-
+    <!-- ============================================================
+          SIMULAR CALIFICACION (NEQUI)
+         ============================================================ -->
+    <string name="rate_app_url">https://play.google.com/store/apps/details?id=com.nequi.MobileApp&amp;hl=es_419&amp;gl=es</string>
 </resources>
