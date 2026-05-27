@@ -18,6 +18,7 @@ import com.example.pb.utils.startAnim
 import com.example.pb.viewmodel.AudioViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.core.net.toUri
 
 class HomeFragment : Fragment() {
 
@@ -45,10 +46,9 @@ class HomeFragment : Fragment() {
         binding.btnPress.setOnClickListener { spinBottle() }
 
         binding.customToolbar.setOnRateClick {
-            val intent = Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es"))
-            startActivity(intent)
+            abrirCalificacion()
         }
+
         binding.customToolbar.setOnAudioClick { audioViewModel.toggleAudio() }
         binding.customToolbar.setOnInstructionsClick {
             findNavController().navigate(R.id.action_home_to_instrucciones)
@@ -85,7 +85,13 @@ class HomeFragment : Fragment() {
             audioViewModel.resumeIfEnabled()
         }
     }
-
+    private fun abrirCalificacion() {
+        val intent = android.content.Intent(
+            android.content.Intent.ACTION_VIEW,
+            getString(R.string.rate_app_url).toUri()
+        )
+        startActivity(intent)
+    }
     private fun launchSpinAnimation() {
         val randomAngle = (0..359).random().toFloat()
         val current = binding.ivBottle.rotation % 360f
