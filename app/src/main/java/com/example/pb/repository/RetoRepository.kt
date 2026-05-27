@@ -1,15 +1,16 @@
 package com.example.pb.repository
 
 import com.example.pb.data.RetoDao
-import  com.example.pb.model.Reto
+import com.example.pb.model.Reto
 import kotlinx.coroutines.flow.Flow
 
-class RetoRepository(private val retoDao: RetoDao) {
-    fun getAllRetos(): Flow<List<Reto>> = retoDao.getAllRetos()
+class RetoRepository(private val dao: RetoDao) {
 
-    suspend fun insertReto(reto: Reto) = retoDao.insertReto(reto)
+    fun getAllRetos(): Flow<List<Reto>> = dao.getAll()
 
-    suspend fun  updateReto (reto: Reto) = retoDao.updateReto(reto)
+    suspend fun insertReto(reto: Reto) = dao.insert(reto)
 
-    suspend fun  deleteReto(reto: Reto) = retoDao.deleteReto(reto)
+    suspend fun updateReto(reto: Reto) = dao.update(reto)
+
+    suspend fun deleteReto(reto: Reto) = dao.delete(reto)
 }

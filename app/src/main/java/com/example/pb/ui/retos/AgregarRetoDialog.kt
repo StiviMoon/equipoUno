@@ -27,7 +27,7 @@ class AgregarRetoDialog : DialogFragment() {
     private val viewModel: RetosViewModel by viewModels(
         ownerProducer = { requireParentFragment() },
         factoryProducer = {
-            val dao = AppDatabase.getDatabase(requireContext()).retoDao()
+            val dao = AppDatabase.getInstance(requireContext()).retoDao()
             RetosViewModelFactory(RetoRepository(dao))
         }
     )
