@@ -55,14 +55,29 @@ class RetosFragment : Fragment() {
 
     // HU 9.0 — Eliminar Reto
     private fun confirmarEliminar(reto: Reto) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.challenges_delete)
-            .setMessage(R.string.challenges_delete_confirm)
-            .setNegativeButton(R.string.action_cancel, null)
-            .setPositiveButton(R.string.action_delete) { _, _ ->
-                viewModel.delete(reto)
-            }
-            .show()
+        val dialog = android.app.Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_delete_reto)
+        dialog.window?.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
+        dialog.setCancelable(false) // Criterio 6
+
+        val tvRetoDescription = dialog.findViewById<android.widget.TextView>(R.id.tvRetoDescription)
+        val btnNo = dialog.findViewById<android.widget.TextView>(R.id.btnNo)
+        val btnSi = dialog.findViewById<android.widget.TextView>(R.id.btnSi)
+
+        tvRetoDescription.text = reto.texto // Criterio 3
+
+        // Criterio 4
+        btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // Criterio 5
+        btnSi.setOnClickListener {
+            viewModel.delete(reto)
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     override fun onDestroyView() {
