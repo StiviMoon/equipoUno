@@ -82,8 +82,10 @@ class HomeFragment : Fragment() {
             }
             binding.tvCountdown.visibility = View.INVISIBLE
 
+            audioViewModel.playSpinSound()   // HU 11.0 C2: sonido mientras gira
             launchSpinAnimation()
             delay(2600L)
+            audioViewModel.stopSpinSound()   // para cuando la botella se detiene
             mostrarRetoAleatorio()
         }
     }

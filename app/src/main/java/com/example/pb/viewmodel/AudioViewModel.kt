@@ -10,6 +10,7 @@ import com.example.pb.R
 class AudioViewModel(application: Application) : AndroidViewModel(application) {
 
     private var bgMediaPlayer: MediaPlayer? = null
+    private var spinMediaPlayer: MediaPlayer? = null
     private val _isAudioOn = MutableLiveData(true)
     val isAudioOn: LiveData<Boolean> = _isAudioOn
 
@@ -54,9 +55,31 @@ class AudioViewModel(application: Application) : AndroidViewModel(application) {
         if (_isAudioOn.value == true) bgMediaPlayer?.start()
     }
 
+    // HU 11.0 C2: sonido de botella girando
+    fun playSpinSound() {
+        try {
+            val rawId = getApplication<Application>().resources
+                .getIdentifier("spin_sound", "raw", getApplication<Application>().packageName)
+            if (rawId != 0) {
+                spinMediaPlayer?.release()
+                spinMediaPlayer = MediaPlayer.create(getApplication(), rawId)?.apply { start() }
+            }
+        } catch (_: Exception) { }
+    }
+
+    fun stopSpinSound() {
+        spinMediaPlayer?.let {
+            if (it.isPlaying) it.stop()
+            it.release()
+        }
+        spinMediaPlayer = null
+    }
+
     override fun onCleared() {
         super.onCleared()
         bgMediaPlayer?.release()
         bgMediaPlayer = null
+        spinMediaPlayer?.release()
+        spinMediaPlayer = null
     }
 }
