@@ -25,9 +25,6 @@
         <action
             android:id="@+id/action_home_to_retos"
             app:destination="@id/retosFragment"/>
-        <action
-            android:id="@+id/action_home_to_mostrar_reto"
-            app:destination="@id/mostrarRetoFragment"/>
     </fragment>
 
     <fragment
@@ -39,10 +36,5 @@
         android:id="@+id/retosFragment"
         android:name="com.example.pb.ui.retos.RetosFragment"
         android:label="Retos"/>
-
-    <fragment
-        android:id="@+id/mostrarRetoFragment"
-        android:name="com.example.pb.ui.retos.MostrarRetoFragment"
-        android:label="Mostrar Reto"/>
 
 </navigation>
