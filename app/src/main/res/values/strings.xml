@@ -67,4 +67,10 @@
     <string name="cd_challenges">@string/toolbar_btn_challenges_cd</string>
     <string name="cd_share">@string/toolbar_btn_share_cd</string>
 
+
+    <!-- ============================================================
+         COMPARTIR
+         ============================================================ -->
+    <string name="share_app_mensaje">App pico botella\nSolo los valientes lo juegan !!\nhttps://play.google.com/store/apps/details?id=com.nequi.MobileApp&amp;hl=es_419&amp;gl=es</string>
+    <string name="share_chooser_title">Compartir vía</string>
 </resources>

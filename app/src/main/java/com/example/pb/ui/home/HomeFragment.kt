@@ -48,7 +48,9 @@ class HomeFragment : Fragment() {
         binding.customToolbar.setOnChallengesClick {
             findNavController().navigate(R.id.action_home_to_retos)
         }
-        binding.customToolbar.setOnShareClick { /* HU 10 */ }
+        binding.customToolbar.setOnShareClick {
+            compartirApp()
+        }
 
         audioViewModel.isAudioOn.observe(viewLifecycleOwner) { isOn ->
             binding.customToolbar.updateAudioIcon(isOn)
@@ -81,7 +83,14 @@ class HomeFragment : Fragment() {
             audioViewModel.resumeIfEnabled()
         }
     }
-
+    private fun compartirApp(){
+        val mensaje = getString(R.string.share_app_mensaje)
+        val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply{
+            type ="text/plain"
+            putExtra(android.content.Intent.EXTRA_TEXT,mensaje)
+        }
+        startActivity(android.content.Intent.createChooser(intent, getString(R.string.share_chooser_title)))
+    }
     private fun resetButton() {
         binding.btnPress.visibility = View.VISIBLE
         binding.btnPress.startAnim(R.anim.btn_blink)
