@@ -4,33 +4,87 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_screen"
-    android:padding="24dp">
+    android:background="@color/bg_screen">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/instructions_title"
-        android:textColor="@color/text_accent"
-        android:textSize="28sp"
-        android:textStyle="bold"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarInstrucciones"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/bg_toolbar"
+        app:title="Reglas del Juego"
+        app:titleTextColor="@color/brand_primary"
+        app:navigationIcon="@drawable/ic_arrow_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"/>
-
-    <TextView
-        android:id="@+id/tvInstructions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/text_primary"
-        android:textSize="16sp"
-        android:lineSpacingMultiplier="1.5"
-        android:layout_marginTop="24dp"
-        android:text="@string/instructions_body"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="24dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarInstrucciones"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Tarea 2: textos — IDs listos para usarlos en el Fragment -->
+            <TextView
+                android:id="@+id/tvComoSeJuega"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Cómo se juega?"
+                android:textColor="@color/text_primary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/tvDescripcionJuego"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/instructions_how_to_play"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:lineSpacingMultiplier="1.5"
+                android:layout_marginTop="12dp"/>
+
+            <TextView
+                android:id="@+id/tvQuienGana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Quién gana?"
+                android:textColor="@color/text_primary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="32dp"/>
+
+            <TextView
+                android:id="@+id/tvDescripcionGanador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/instructions_who_wins"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:lineSpacingMultiplier="1.5"
+                android:layout_marginTop="12dp"/>
+
+            <!-- Tarea 3: animación — ImageView placeholder, se asigna en Fragment -->
+            <ImageView
+                android:id="@+id/ivTrofeo"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_trophy"
+                android:contentDescription="Triunfo"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
