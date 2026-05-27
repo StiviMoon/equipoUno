@@ -30,6 +30,8 @@ class InstruccionesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        audioViewModel.pauseBgMusic()
+
         binding.toolbarInstrucciones.setNavigationOnClickListener {
             audioViewModel.resumeIfEnabled()
             findNavController().navigateUp()
@@ -45,9 +47,9 @@ class InstruccionesFragment : Fragment() {
         binding.ivTrofeo.startAnimation(anim)
     }
 
-    override fun onResume() {
-        super.onResume()
-        audioViewModel.pauseBgMusic()
+    override fun onStop() {
+        super.onStop()
+        audioViewModel.resumeIfEnabled()
     }
 
     override fun onDestroyView() {
