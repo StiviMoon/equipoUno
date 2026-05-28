@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,7 @@ import com.example.pb.data.AppDatabase
 import com.example.pb.databinding.FragmentRetosBinding
 import com.example.pb.model.Reto
 import com.example.pb.repository.RetoRepository
+import com.example.pb.viewmodel.AudioViewModel
 import com.example.pb.viewmodel.RetosUiState
 import com.example.pb.viewmodel.RetosViewModel
 import com.example.pb.viewmodel.RetosViewModelFactory
@@ -24,6 +26,8 @@ class RetosFragment : Fragment() {
 
     private var _binding: FragmentRetosBinding? = null
     private val binding get() = _binding!!
+
+    private val audioViewModel: AudioViewModel by activityViewModels()
 
     private val viewModel: RetosViewModel by viewModels {
         val dao = AppDatabase.getInstance(requireContext()).retoDao()
@@ -43,6 +47,11 @@ class RetosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        audioViewModel.pauseBgMusic()
+        binding.toolbarRetos.setNavigationOnClickListener {
+            audioViewModel.resumeIfEnabled()
+            findNavController().navigateUp()
+        }
         setupRecyclerView()
         setupFab()
         observeRetos()
@@ -110,6 +119,11 @@ class RetosFragment : Fragment() {
         }
 
         dialog.show()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        audioViewModel.resumeIfEnabled()
     }
 
     override fun onDestroyView() {
