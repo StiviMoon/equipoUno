@@ -6,15 +6,14 @@
     android:layout_height="match_parent"
     android:background="@color/bg_screen">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/challenges_title"
-        android:textColor="@color/text_accent"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginTop="32dp"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarRetos"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/bg_toolbar"
+        app:title="Retos"
+        app:titleTextColor="@color/brand_primary"
+        app:navigationIcon="@drawable/ic_arrow_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -28,7 +27,7 @@
         android:textSize="16sp"
         android:textAlignment="center"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarRetos"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -41,7 +40,7 @@
         android:clipToPadding="false"
         android:paddingBottom="80dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@id/toolbarRetos"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
