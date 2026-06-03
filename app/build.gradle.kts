@@ -63,6 +63,9 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
 
+    // Coil — carga de imágenes desde URL
+    implementation(libs.coil)
+
     // Coroutines
     implementation(libs.coroutines.android)
 

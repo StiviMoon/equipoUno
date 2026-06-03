@@ -1,7 +1,6 @@
 package com.example.pb.ui.home
 
 import android.app.Dialog
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -17,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.example.pb.R
 import com.example.pb.data.AppDatabase
 import com.example.pb.databinding.FragmentHomeBinding
@@ -24,11 +24,9 @@ import com.example.pb.repository.PokemonRepository
 import com.example.pb.utils.startAnim
 import com.example.pb.viewmodel.AudioViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.HttpURLConnection
-import java.net.URL
 
 class HomeFragment : Fragment() {
 
@@ -49,7 +47,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        audioViewModel.startBgMusic()
+        audioViewModel.resumeIfEnabled()
         binding.btnPress.startAnim(R.anim.btn_blink)
         binding.btnPress.setOnClickListener { spinBottle() }
 
@@ -68,13 +66,24 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // Fase 1: contador 3→0, luego gira botella, luego muestra reto
     private fun spinBottle() {
         binding.btnPress.clearAnimation()
         binding.btnPress.visibility = View.INVISIBLE
         audioViewModel.pauseTemporarily()
 
         viewLifecycleOwner.lifecycleScope.launch {
+            // Precargar reto de BD mientras gira+countdown (~5.7s)
+            val dao = AppDatabase.getInstance(requireContext()).retoDao()
+            val retoDeferred = async(Dispatchers.IO) { dao.getRandomReto() }
+            val pokemonUrl = PokemonRepository().getRandomPokemonImageUrl()
+
+            // 1. Girar botella con sonido (HU11 C1, C2)
+            audioViewModel.playSpinSound()
+            launchSpinAnimation()
+            delay(2500L)
+            audioViewModel.stopSpinSound()
+
+            // 2. Countdown DESPUÉS de que la botella se detiene (HU11 C5)
             binding.tvCountdown.visibility = View.VISIBLE
             for (i in 3 downTo 0) {
                 binding.tvCountdown.text = i.toString()
@@ -82,11 +91,11 @@ class HomeFragment : Fragment() {
             }
             binding.tvCountdown.visibility = View.INVISIBLE
 
-            audioViewModel.playSpinSound()   // HU 11.0 C2: sonido mientras gira
-            launchSpinAnimation()
-            delay(2600L)
-            audioViewModel.stopSpinSound()   // para cuando la botella se detiene
-            mostrarRetoAleatorio()
+            // 3. Mostrar reto — Coil carga imagen desde URL
+            mostrarRetoAleatorio(
+                retoTexto = retoDeferred.await()?.descripcion ?: "No hay retos disponibles.",
+                pokemonUrl = pokemonUrl
+            )
         }
     }
 
@@ -104,54 +113,31 @@ class HomeFragment : Fragment() {
             .start()
     }
 
-    // Muestra diálogo con reto aleatorio de la BD + imagen Pokémon de la API
-    private fun mostrarRetoAleatorio() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val dao = AppDatabase.getInstance(requireContext()).retoDao()
-                val reto = dao.getRandomReto()
-                val retoTexto = reto?.descripcion ?: "No hay retos disponibles."
+    private fun mostrarRetoAleatorio(retoTexto: String, pokemonUrl: String) {
+        try {
+            val dialog = Dialog(requireContext())
+            dialog.setContentView(R.layout.dialog_random_reto)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialog.setCancelable(false)
 
-                val dialog = Dialog(requireContext())
-                dialog.setContentView(R.layout.dialog_random_reto)
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                dialog.window?.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-                dialog.setCancelable(false)
+            dialog.findViewById<TextView>(R.id.tvReto).text = retoTexto
+            dialog.findViewById<ImageView>(R.id.ivPokemon).load(pokemonUrl)
 
-                dialog.findViewById<TextView>(R.id.tvReto).text = retoTexto
-                dialog.findViewById<Button>(R.id.btnCerrar).setOnClickListener {
-                    dialog.dismiss()
-                    resetButton()
-                    audioViewModel.resumeIfEnabled()
-                }
-                dialog.show()
-
-                // Carga imagen Pokémon en segundo plano, sin bloquear el diálogo
-                launch {
-                    try {
-                        val imageUrl = PokemonRepository().getRandomPokemonImageUrl()
-                        imageUrl?.let {
-                            val bitmap = withContext(Dispatchers.IO) {
-                                val conn = URL(it).openConnection() as HttpURLConnection
-                                conn.connectTimeout = 5000
-                                conn.readTimeout = 5000
-                                conn.connect()
-                                BitmapFactory.decodeStream(conn.inputStream)
-                            }
-                            if (dialog.isShowing) {
-                                dialog.findViewById<ImageView>(R.id.ivPokemon).setImageBitmap(bitmap)
-                            }
-                        }
-                    } catch (e: Exception) { /* imagen no disponible, diálogo igual funciona */ }
-                }
-
-            } catch (e: Exception) {
+            dialog.findViewById<Button>(R.id.btnCerrar).setOnClickListener {
+                audioViewModel.stopRetoRevealSound()
+                dialog.dismiss()
                 resetButton()
                 audioViewModel.resumeIfEnabled()
             }
+            dialog.show()
+            audioViewModel.playRetoRevealSound()
+        } catch (e: Exception) {
+            resetButton()
+            audioViewModel.resumeIfEnabled()
         }
     }
 

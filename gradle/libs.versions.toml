@@ -15,6 +15,7 @@ lifecycle = "2.9.0"
 room = "2.7.1"
 coroutines = "1.9.0"
 fragment = "1.8.8"
+coil = "2.7.0"
 
 
 [libraries]
@@ -38,6 +39,7 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

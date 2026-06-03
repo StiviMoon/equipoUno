@@ -11,6 +11,7 @@ class AudioViewModel(application: Application) : AndroidViewModel(application) {
 
     private var bgMediaPlayer: MediaPlayer? = null
     private var spinMediaPlayer: MediaPlayer? = null
+    private var retoRevealPlayer: MediaPlayer? = null
     private val _isAudioOn = MutableLiveData(true)
     val isAudioOn: LiveData<Boolean> = _isAudioOn
 
@@ -75,11 +76,32 @@ class AudioViewModel(application: Application) : AndroidViewModel(application) {
         spinMediaPlayer = null
     }
 
+    fun playRetoRevealSound() {
+        try {
+            val rawId = getApplication<Application>().resources
+                .getIdentifier("reto_reveal", "raw", getApplication<Application>().packageName)
+            if (rawId != 0) {
+                retoRevealPlayer?.release()
+                retoRevealPlayer = MediaPlayer.create(getApplication(), rawId)?.apply { start() }
+            }
+        } catch (_: Exception) { }
+    }
+
+    fun stopRetoRevealSound() {
+        retoRevealPlayer?.let {
+            if (it.isPlaying) it.stop()
+            it.release()
+        }
+        retoRevealPlayer = null
+    }
+
     override fun onCleared() {
         super.onCleared()
         bgMediaPlayer?.release()
         bgMediaPlayer = null
         spinMediaPlayer?.release()
         spinMediaPlayer = null
+        retoRevealPlayer?.release()
+        retoRevealPlayer = null
     }
 }

@@ -1,6 +1,7 @@
 package com.example.pb.ui.retos
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.pb.data.AppDatabase
@@ -60,6 +62,18 @@ class AgregarRetoDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Estado inicial correcto: disabled + gris
+        binding.btnGuardar.isEnabled = false
+        binding.btnGuardar.setTextColor(requireContext().getColor(android.R.color.darker_gray))
+
+        // Focus + teclado al abrir
+        binding.etReto.requestFocus()
+        binding.etReto.post {
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(binding.etReto, InputMethodManager.SHOW_IMPLICIT)
+        }
+
         setupTextWatcher()
         setupBotones()
     }
