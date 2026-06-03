@@ -1,98 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
 
-    <!-- Base madera caoba -->
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="#5D3A1A"/>
-        </shape>
-    </item>
+    <path
+        android:fillColor="#DFB17D"
+        android:pathData="M0,0 h100 v100 h-100 z" />
 
-    <!-- Veta horizontal 1 -->
-    <item android:top="40dp" android:bottom="0dp">
-        <shape android:shape="rectangle">
-            <gradient
-                android:type="linear"
-                android:angle="0"
-                android:startColor="#00000000"
-                android:centerColor="#15000000"
-                android:endColor="#00000000"/>
-            <size android:height="6dp"/>
-        </shape>
-    </item>
+    <path
+        android:fillColor="#E9C69A"
+        android:pathData="M0,0 h20 v70 h-20 z" />
+    <path
+        android:fillColor="#CE9E67"
+        android:pathData="M0,70 h20 v30 h-20 z" />
 
-    <!-- Veta horizontal 2 -->
-    <item android:top="110dp" android:bottom="0dp">
-        <shape android:shape="rectangle">
-            <gradient
-                android:type="linear"
-                android:angle="0"
-                android:startColor="#00000000"
-                android:centerColor="#20000000"
-                android:endColor="#00000000"/>
-            <size android:height="4dp"/>
-        </shape>
-    </item>
+    <path
+        android:fillColor="#D4A672"
+        android:pathData="M20,0 h20 v40 h-20 z" />
+    <path
+        android:fillColor="#E2BC8F"
+        android:pathData="M20,40 h20 v60 h-20 z" />
 
-    <!-- Veta horizontal 3 -->
-    <item android:top="200dp" android:bottom="0dp">
-        <shape android:shape="rectangle">
-            <gradient
-                android:type="linear"
-                android:angle="0"
-                android:startColor="#00000000"
-                android:centerColor="#18000000"
-                android:endColor="#00000000"/>
-            <size android:height="8dp"/>
-        </shape>
-    </item>
+    <path
+        android:fillColor="#C7945B"
+        android:pathData="M40,0 h20 v84 h-20 z" />
+    <path
+        android:fillColor="#DFB17D"
+        android:pathData="M40,84 h20 v16 h-20 z" />
 
-    <!-- Veta horizontal 4 -->
-    <item android:top="310dp" android:bottom="0dp">
-        <shape android:shape="rectangle">
-            <gradient
-                android:type="linear"
-                android:angle="0"
-                android:startColor="#00000000"
-                android:centerColor="#12000000"
-                android:endColor="#00000000"/>
-            <size android:height="5dp"/>
-        </shape>
-    </item>
+    <path
+        android:fillColor="#F3D5AE"
+        android:pathData="M60,0 h20 v22 h-20 z" />
+    <path
+        android:fillColor="#DCAE78"
+        android:pathData="M60,22 h20 v78 h-20 z" />
 
-    <!-- Veta horizontal 5 -->
-    <item android:top="430dp" android:bottom="0dp">
-        <shape android:shape="rectangle">
-            <gradient
-                android:type="linear"
-                android:angle="0"
-                android:startColor="#00000000"
-                android:centerColor="#22000000"
-                android:endColor="#00000000"/>
-            <size android:height="6dp"/>
-        </shape>
-    </item>
+    <path
+        android:fillColor="#D2A36D"
+        android:pathData="M80,0 h20 v53 h-20 z" />
+    <path
+        android:fillColor="#EBD0A7"
+        android:pathData="M80,53 h20 v47 h-20 z" />
 
-    <!-- Overlay cálido para dar profundidad -->
-    <item>
-        <shape android:shape="rectangle">
-            <gradient
-                android:type="linear"
-                android:angle="180"
-                android:startColor="#25C68A2E"
-                android:endColor="#10A0521E"/>
-        </shape>
-    </item>
+    <path
+        android:strokeColor="#A57847"
+        android:strokeWidth="0.3"
+        android:pathData="
+            M20,0 v100
+            M40,0 v100
+            M60,0 v100
+            M80,0 v100
+            M0,70 h20
+            M20,40 h20
+            M40,84 h20
+            M60,22 h20
+            M80,53 h20" />
 
-    <!-- Brillo izquierdo sutil -->
-    <item>
-        <shape android:shape="rectangle">
-            <gradient
-                android:type="linear"
-                android:angle="0"
-                android:startColor="#15FFFFFF"
-                android:endColor="#00FFFFFF"/>
-        </shape>
-    </item>
-
-</layer-list>
+</vector>
