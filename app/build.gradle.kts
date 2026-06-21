@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -62,7 +63,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
-
+    implementation("com.google.firebase:firebase-auth-ktx:23.2.0")
     // Coil — carga de imágenes desde URL
     implementation(libs.coil)
 
