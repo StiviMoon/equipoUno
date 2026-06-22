@@ -7,66 +7,70 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="12dp">
+        android:padding="8dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:background="@drawable/bg_toolbar"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
 
             <ImageButton
                 android:id="@+id/btnRate"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:src="@drawable/ic_star"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:contentDescription="@string/cd_rate"/>
+                android:contentDescription="Calificar"/>
 
             <ImageButton
                 android:id="@+id/btnAudio"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:src="@drawable/ic_audio_on"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:contentDescription="@string/cd_audio"/>
+                android:contentDescription="Audio"/>
 
             <ImageButton
                 android:id="@+id/btnInstructions"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:src="@drawable/ic_instrucciones"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_gamepad"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:contentDescription="@string/cd_instructions"/>
+                android:contentDescription="Instrucciones"/>
 
             <ImageButton
                 android:id="@+id/btnChallenges"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:src="@drawable/ic_retos"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_add_circle"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:contentDescription="@string/cd_challenges"/>
+                android:contentDescription="Retos"/>
 
             <ImageButton
                 android:id="@+id/btnShare"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:src="@drawable/ic_compartir"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:contentDescription="@string/cd_share"/>
+                android:contentDescription="Compartir"/>
+
+            <ImageButton
+                android:id="@+id/btnLogout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_logout"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Cerrar sesión"/>
 
         </LinearLayout>
     </LinearLayout>
