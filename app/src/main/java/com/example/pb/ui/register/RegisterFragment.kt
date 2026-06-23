@@ -8,32 +8,30 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.pb.R
 import com.example.pb.databinding.FragmentRegisterBinding
-import com.google.firebase.auth.FirebaseAuth
+import com.example.pb.viewmodel.AuthViewModel
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var auth: FirebaseAuth
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding =
             FragmentRegisterBinding.inflate(
                 inflater,
                 container,
                 false
             )
-
-        auth = FirebaseAuth.getInstance()
 
         return binding.root
     }
@@ -111,46 +109,19 @@ class RegisterFragment : Fragment() {
     }
 
     private fun registerUser() {
-
         val email =
             binding.etEmailRegistro.text.toString().trim()
 
         val password =
             binding.etPasswordRegistro.text.toString()
 
-        auth.createUserWithEmailAndPassword(
-            email,
-            password
-        ).addOnCompleteListener {
-
-            if (it.isSuccessful) {
-
-                Toast.makeText(
-                    requireContext(),
-                    "Cuenta creada correctamente",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                findNavController().navigate(
-                    R.id.action_register_to_home
-                )
-
-            } else {
-
-                Toast.makeText(
-                    requireContext(),
-                    it.exception?.message,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
+        authViewModel.registerWithEmail(email, password)
     }
 
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
     ) {
-
         super.onViewCreated(
             view,
             savedInstanceState
@@ -170,7 +141,6 @@ class RegisterFragment : Fragment() {
         }
 
         binding.btnCrearCuenta.setOnClickListener {
-
             val emailOk = validateEmail()
             val passwordOk = validatePassword()
             val confirmOk = validateConfirmPassword()
@@ -180,13 +150,46 @@ class RegisterFragment : Fragment() {
                 passwordOk &&
                 confirmOk
             ) {
-
                 registerUser()
             }
         }
 
         binding.btnVolverLogin.setOnClickListener {
             findNavController().navigateUp()
+        }
+
+        observeAuthState()
+    }
+
+    private fun observeAuthState() {
+        authViewModel.authState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is AuthViewModel.AuthState.Loading -> {
+                    binding.btnCrearCuenta.isEnabled = false
+                }
+                is AuthViewModel.AuthState.Success -> {
+                    binding.btnCrearCuenta.isEnabled = true
+                    Toast.makeText(
+                        requireContext(),
+                        state.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    findNavController().navigate(
+                        R.id.action_register_to_home
+                    )
+                }
+                is AuthViewModel.AuthState.Error -> {
+                    binding.btnCrearCuenta.isEnabled = true
+                    Toast.makeText(
+                        requireContext(),
+                        state.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                is AuthViewModel.AuthState.Idle -> {
+                    binding.btnCrearCuenta.isEnabled = true
+                }
+            }
         }
     }
 

@@ -8,17 +8,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.pb.R
 import com.example.pb.databinding.FragmentLoginBinding
-import com.google.firebase.auth.FirebaseAuth
+import com.example.pb.viewmodel.AuthViewModel
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var auth: FirebaseAuth
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,8 +28,6 @@ class LoginFragment : Fragment() {
     ): View {
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-
-        auth = FirebaseAuth.getInstance()
 
         return binding.root
     }
@@ -80,50 +79,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginUser() {
-
-        val email =
-            binding.etEmail.text.toString().trim()
-
-        val password =
-            binding.etPassword.text.toString()
-
-        auth.signInWithEmailAndPassword(
-            email,
-            password
-        ).addOnCompleteListener {
-
-            if (it.isSuccessful) {
-
-                Toast.makeText(
-                    requireContext(),
-                    "Bienvenido",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                findNavController().navigate(
-                    R.id.action_login_to_home
-                )
-
-            } else {
-
-                Toast.makeText(
-                    requireContext(),
-                    it.exception?.message,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
+        val email = binding.etEmail.text.toString().trim()
+        val password = binding.etPassword.text.toString()
+        authViewModel.loginWithEmail(email, password)
     }
 
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
     ) {
-
-        super.onViewCreated(
-            view,
-            savedInstanceState
-        )
+        super.onViewCreated(view, savedInstanceState)
 
         binding.etEmail.doAfterTextChanged {
             validateEmail()
@@ -134,21 +99,52 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnLogin.setOnClickListener {
-
             val emailOk = validateEmail()
             val passwordOk = validatePassword()
 
             if (emailOk && passwordOk) {
-
                 loginUser()
             }
         }
 
         binding.btnRegister.setOnClickListener {
-
             findNavController().navigate(
                 R.id.action_login_to_register
             )
+        }
+
+        observeAuthState()
+    }
+
+    private fun observeAuthState() {
+        authViewModel.authState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is AuthViewModel.AuthState.Loading -> {
+                    binding.btnLogin.isEnabled = false
+                }
+                is AuthViewModel.AuthState.Success -> {
+                    binding.btnLogin.isEnabled = true
+                    Toast.makeText(
+                        requireContext(),
+                        state.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    findNavController().navigate(
+                        R.id.action_login_to_home
+                    )
+                }
+                is AuthViewModel.AuthState.Error -> {
+                    binding.btnLogin.isEnabled = true
+                    Toast.makeText(
+                        requireContext(),
+                        state.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                is AuthViewModel.AuthState.Idle -> {
+                    binding.btnLogin.isEnabled = true
+                }
+            }
         }
     }
 

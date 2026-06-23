@@ -68,16 +68,6 @@
         android:id="@+id/instruccionesFragment"
         android:name="com.example.pb.ui.instrucciones.InstruccionesFragment"
         android:label="Instrucciones"/>
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.pb.ui.register.RegisterFragment"
-        android:label="Register">
-
-        <action
-            android:id="@+id/action_register_to_login"
-            app:destination="@id/loginFragment" />
-
-    </fragment>
 
     <fragment
         android:id="@+id/retosFragment"
