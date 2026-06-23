@@ -26,6 +26,7 @@ class CustomToolbarView @JvmOverloads constructor(
     private var onInstructionsClick: (() -> Unit)? = null
     private var onChallengesClick: (() -> Unit)? = null
     private var onShareClick: (() -> Unit)? = null
+    private var onLogoutClick: (() -> Unit)? = null
 
     init {
         setupClicks()
@@ -52,6 +53,10 @@ class CustomToolbarView @JvmOverloads constructor(
             it.startAnimation(touchAnim)
             it.postDelayed({ onShareClick?.invoke() }, 150)
         }
+        binding.btnLogout.setOnClickListener {
+            it.startAnimation(touchAnim)
+            it.postDelayed({ onLogoutClick?.invoke() }, 150)
+        }
     }
 
     fun updateAudioIcon(isOn: Boolean) {
@@ -64,4 +69,5 @@ class CustomToolbarView @JvmOverloads constructor(
     fun setOnInstructionsClick(block: () -> Unit) { onInstructionsClick = block }
     fun setOnChallengesClick(block: () -> Unit) { onChallengesClick = block }
     fun setOnShareClick(block: () -> Unit) { onShareClick = block }
+    fun setOnLogoutClick(block: () -> Unit) { onLogoutClick = block }
 }

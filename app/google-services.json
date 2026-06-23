@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "655938293145",
+    "project_id": "pico-botella-c9080",
+    "storage_bucket": "pico-botella-c9080.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655938293145:android:d5d9d20e8e1a4add279708",
+        "android_client_info": {
+          "package_name": "com.example.pb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk8da3PZCDDxFsmgP20nf7OvAbNHWHHiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

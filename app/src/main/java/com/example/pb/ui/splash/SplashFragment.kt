@@ -39,8 +39,23 @@ class SplashFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             delay(5000L)
-            if (isAdded) {
-                findNavController().navigate(R.id.action_splash_to_home)
+
+            val currentUser =
+                com.google.firebase.auth.FirebaseAuth
+                    .getInstance()
+                    .currentUser
+
+            if (currentUser != null) {
+
+                findNavController().navigate(
+                    R.id.action_splash_to_home
+                )
+
+            } else {
+
+                findNavController().navigate(
+                    R.id.action_splash_to_login
+                )
             }
         }
     }

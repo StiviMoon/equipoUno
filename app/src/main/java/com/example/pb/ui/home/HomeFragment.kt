@@ -28,7 +28,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
+class
+
+HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -60,10 +62,16 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_home_to_retos)
         }
         binding.customToolbar.setOnShareClick { compartirApp() }
+        binding.customToolbar.setOnLogoutClick { cerrarSesion() }
 
         audioViewModel.isAudioOn.observe(viewLifecycleOwner) { isOn ->
             binding.customToolbar.updateAudioIcon(isOn)
         }
+    }
+
+    private fun cerrarSesion() {
+        com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
+        findNavController().navigate(R.id.action_home_to_login)
     }
 
     private fun spinBottle() {
