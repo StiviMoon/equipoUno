@@ -4,7 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:background="#000000">
+=======
+    android:background="@drawable/bg_auth">
+>>>>>>> bd4311a (feat(auth-ui): ajustes visuales login y registro)
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -89,19 +93,15 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:visibility="gone" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCrearCuenta"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Crear cuenta" />
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            app:backgroundTint="#FF3D00"
+            android:text="Crear cuenta"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnVolverLogin"
