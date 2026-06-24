@@ -78,33 +78,44 @@ class RetosFragment : Fragment() {
     private fun observeRetos() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
-                    when (state) {
-                        is RetosUiState.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                            binding.tvEmpty.visibility = View.GONE
-                            binding.rvRetos.visibility = View.GONE
+                launch {
+                    viewModel.uiState.collect { state ->
+                        when (state) {
+                            is RetosUiState.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                                binding.tvEmpty.visibility = View.GONE
+                                binding.rvRetos.visibility = View.GONE
+                            }
+                            is RetosUiState.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                binding.tvEmpty.visibility = View.GONE
+                                binding.rvRetos.visibility = View.VISIBLE
+                                adapter.submitList(state.retos)
+                            }
+                            is RetosUiState.Empty -> {
+                                binding.progressBar.visibility = View.GONE
+                                binding.rvRetos.visibility = View.GONE
+                                binding.tvEmpty.text = getString(R.string.challenges_empty_firestore)
+                                binding.tvEmpty.visibility = View.VISIBLE
+                                adapter.submitList(emptyList())
+                            }
+                            is RetosUiState.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                binding.rvRetos.visibility = View.GONE
+                                binding.tvEmpty.text = getString(R.string.challenges_error_connection)
+                                binding.tvEmpty.visibility = View.VISIBLE
+                                adapter.submitList(emptyList())
+                            }
                         }
-                        is RetosUiState.Success -> {
-                            binding.progressBar.visibility = View.GONE
-                            binding.tvEmpty.visibility = View.GONE
-                            binding.rvRetos.visibility = View.VISIBLE
-                            adapter.submitList(state.retos)
-                        }
-                        is RetosUiState.Empty -> {
-                            binding.progressBar.visibility = View.GONE
-                            binding.rvRetos.visibility = View.GONE
-                            binding.tvEmpty.text = getString(R.string.challenges_empty_firestore)
-                            binding.tvEmpty.visibility = View.VISIBLE
-                            adapter.submitList(emptyList())
-                        }
-                        is RetosUiState.Error -> {
-                            binding.progressBar.visibility = View.GONE
-                            binding.rvRetos.visibility = View.GONE
-                            binding.tvEmpty.text = getString(R.string.challenges_error_connection)
-                            binding.tvEmpty.visibility = View.VISIBLE
-                            adapter.submitList(emptyList())
-                        }
+                    }
+                }
+                launch {
+                    viewModel.mensaje.collect { msg ->
+                        android.widget.Toast.makeText(
+                            requireContext(),
+                            msg,
+                            android.widget.Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
