@@ -36,6 +36,8 @@
          ============================================================ -->
     <string name="challenges_title">Retos</string>
     <string name="challenges_empty">No hay retos aún.\nPresiona + para agregar uno.</string>
+    <string name="challenges_empty_firestore">No existen retos registrados.</string>
+    <string name="challenges_error_connection">No fue posible obtener los retos.\nVerifique su conexión.</string>
     <string name="challenges_add">Agregar reto</string>
     <string name="challenges_edit">Editar reto</string>
     <string name="challenges_delete">Eliminar reto</string>

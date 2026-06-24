@@ -11,10 +11,9 @@ import android.view.Window
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.example.pb.data.AppDatabase
+import com.example.pb.data.model.Reto
+import com.example.pb.data.repository.RetosRepository
 import com.example.pb.databinding.DialogEditarRetoBinding
-import com.example.pb.model.Reto
-import com.example.pb.repository.RetoRepository
 import com.example.pb.viewmodel.RetosViewModel
 import com.example.pb.viewmodel.RetosViewModelFactory
 
@@ -26,8 +25,7 @@ class EditarRetoDialog : DialogFragment() {
     private val viewModel: RetosViewModel by viewModels(
         ownerProducer = { requireParentFragment() },
         factoryProducer = {
-            val dao = AppDatabase.getInstance(requireContext()).retoDao()
-            RetosViewModelFactory(RetoRepository(dao))
+            RetosViewModelFactory(RetosRepository())
         }
     )
 
@@ -61,7 +59,7 @@ class EditarRetoDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Criterio 3: poblar EditText con descripción actual de la BD
-        val retoId = requireArguments().getInt(ARG_ID)
+        val retoId = requireArguments().getString(ARG_ID, "")
         val descripcionActual = requireArguments().getString(ARG_DESCRIPCION, "")
         binding.etReto.setText(descripcionActual)
         binding.etReto.setSelection(descripcionActual.length)

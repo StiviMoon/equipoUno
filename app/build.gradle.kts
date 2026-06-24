@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
     implementation("com.google.firebase:firebase-auth-ktx:23.2.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.1")
     // Coil — carga de imágenes desde URL
     implementation(libs.coil)
 
