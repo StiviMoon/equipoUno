@@ -6,8 +6,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.pb.R
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AudioViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class AudioViewModel @Inject constructor(
+    application: Application
+) : AndroidViewModel(application) {
 
     private var bgMediaPlayer: MediaPlayer? = null
     private var spinMediaPlayer: MediaPlayer? = null

@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AuthViewModel : ViewModel() {
-
-    private val auth = FirebaseAuth.getInstance()
+@HiltViewModel
+class AuthViewModel @Inject constructor(
+    private val auth: FirebaseAuth
+) : ViewModel() {
 
     private val _authState = MutableLiveData<AuthState>(AuthState.Idle)
     val authState: LiveData<AuthState> = _authState

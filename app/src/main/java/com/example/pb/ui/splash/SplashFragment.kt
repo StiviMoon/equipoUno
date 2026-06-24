@@ -12,15 +12,22 @@ import androidx.navigation.fragment.findNavController
 import com.example.pb.R
 import com.example.pb.databinding.FragmentSplashBinding
 import com.example.pb.viewmodel.AudioViewModel
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashFragment : Fragment() {
 
     private var _binding: FragmentSplashBinding? = null
     private val binding get() = _binding!!
 
     private val audioViewModel: AudioViewModel by activityViewModels()
+
+    @Inject
+    lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,10 +47,7 @@ class SplashFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             delay(5000L)
 
-            val currentUser =
-                com.google.firebase.auth.FirebaseAuth
-                    .getInstance()
-                    .currentUser
+            val currentUser = firebaseAuth.currentUser
 
             if (currentUser != null) {
 

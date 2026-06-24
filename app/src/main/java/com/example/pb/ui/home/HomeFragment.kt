@@ -27,12 +27,22 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private val audioViewModel: AudioViewModel by activityViewModels()
+
+    @Inject
+    lateinit var retosRepository: com.example.pb.data.repository.RetosRepository
+
+    @Inject
+    lateinit var pokemonRepository: PokemonRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,9 +88,8 @@ class HomeFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             // Precargar reto de Firestore mientras gira+countdown (~5.7s)
-            val repository = com.example.pb.data.repository.RetosRepository()
-            val retoDeferred = async { repository.getRandomReto() }
-            val pokemonUrl = PokemonRepository().getRandomPokemonImageUrl()
+            val retoDeferred = async { retosRepository.getRandomReto() }
+            val pokemonUrl = pokemonRepository.getRandomPokemonImageUrl()
 
             // 1. Girar botella con sonido (HU11 C1, C2)
             audioViewModel.playSpinSound()

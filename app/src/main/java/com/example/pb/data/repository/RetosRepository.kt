@@ -10,12 +10,16 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class RetosRepository {
+@Singleton
+class RetosRepository @Inject constructor(
+    private val firestore: FirebaseFirestore
+) {
 
-    private val firestore = FirebaseFirestore.getInstance()
     private val retosCollection = firestore.collection("retos")
 
     /**
