@@ -14,14 +14,18 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.pb.R
 import com.example.pb.databinding.FragmentHomeBinding
-import com.example.pb.repository.PokemonRepository
+import com.example.pb.ui.retos.DialogRetoAleatorio
 import com.example.pb.utils.startAnim
 import com.example.pb.viewmodel.AudioViewModel
+import com.example.pb.viewmodel.RetosViewModel
+import com.example.pb.viewmodel.PokemonViewModel
+import com.example.pb.viewmodel.RandomRetoState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -37,12 +41,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val audioViewModel: AudioViewModel by activityViewModels()
-
-    @Inject
-    lateinit var retosRepository: com.example.pb.data.repository.RetosRepository
-
-    @Inject
-    lateinit var pokemonRepository: PokemonRepository
+    private val retosViewModel: RetosViewModel by viewModels()
+    private val pokemonViewModel: PokemonViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,11 +86,11 @@ class HomeFragment : Fragment() {
         binding.btnPress.visibility = View.INVISIBLE
         audioViewModel.pauseTemporarily()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            // Precargar reto de Firestore mientras gira+countdown (~5.7s)
-            val retoDeferred = async { retosRepository.getRandomReto() }
-            val pokemonUrl = pokemonRepository.getRandomPokemonImageUrl()
+        // Disparar carga asíncrona de datos desde los ViewModels
+        retosViewModel.fetchRandomReto()
+        pokemonViewModel.loadRandomPokemon()
 
+        viewLifecycleOwner.lifecycleScope.launch {
             // 1. Girar botella con sonido (HU11 C1, C2)
             audioViewModel.playSpinSound()
             launchSpinAnimation()
@@ -105,10 +105,48 @@ class HomeFragment : Fragment() {
             }
             binding.tvCountdown.visibility = View.INVISIBLE
 
-            // 3. Mostrar reto — Coil carga imagen desde URL
+            // Esperar a que terminen de cargar si es necesario
+            var retoState = retosViewModel.randomRetoState.value
+            var pokemonState = pokemonViewModel.pokemonState.value
+
+            while (retoState is RandomRetoState.Loading || retoState is RandomRetoState.Idle ||
+                pokemonState is PokemonViewModel.PokemonState.Loading || pokemonState is PokemonViewModel.PokemonState.Idle) {
+                delay(100L)
+                retoState = retosViewModel.randomRetoState.value
+                pokemonState = pokemonViewModel.pokemonState.value
+            }
+
+            val finalRetoText = when (retoState) {
+                is RandomRetoState.Success -> retoState.reto.descripcion
+                is RandomRetoState.Empty -> "No existen retos disponibles."
+                is RandomRetoState.Error -> "No fue posible obtener los retos."
+                else -> "No existen retos disponibles."
+            }
+
+            var finalPokemonName = ""
+            var finalPokemonUrl = ""
+
+            when (pokemonState) {
+                is PokemonViewModel.PokemonState.Success -> {
+                    finalPokemonName = pokemonState.pokemon.name
+                    finalPokemonUrl = pokemonState.pokemon.imageUrl
+                }
+                is PokemonViewModel.PokemonState.Error -> {
+                    // Si no hay conexión o falla la API, mostramos error en un Toast y dejamos la imagen vacía/placeholder
+                    android.widget.Toast.makeText(
+                        requireContext(),
+                        "No fue posible obtener la imagen. Verifique su conexión a Internet.",
+                        android.widget.Toast.LENGTH_LONG
+                    ).show()
+                }
+                else -> {}
+            }
+
+            // 3. Mostrar reto
             mostrarRetoAleatorio(
-                retoTexto = retoDeferred.await()?.descripcion ?: "No hay retos disponibles.",
-                pokemonUrl = pokemonUrl
+                retoTexto = finalRetoText,
+                pokemonName = finalPokemonName,
+                pokemonUrl = finalPokemonUrl
             )
         }
     }
@@ -127,27 +165,15 @@ class HomeFragment : Fragment() {
             .start()
     }
 
-    private fun mostrarRetoAleatorio(retoTexto: String, pokemonUrl: String) {
+    private fun mostrarRetoAleatorio(retoTexto: String, pokemonName: String, pokemonUrl: String) {
         try {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.dialog_random_reto)
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.window?.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            dialog.setCancelable(false)
-
-            dialog.findViewById<TextView>(R.id.tvReto).text = retoTexto
-            dialog.findViewById<ImageView>(R.id.ivPokemon).load(pokemonUrl)
-
-            dialog.findViewById<Button>(R.id.btnCerrar).setOnClickListener {
+            val dialog = DialogRetoAleatorio.newInstance(retoTexto, pokemonName, pokemonUrl)
+            dialog.setOnDismissListener {
                 audioViewModel.stopRetoRevealSound()
-                dialog.dismiss()
                 resetButton()
                 audioViewModel.resumeIfEnabled()
             }
-            dialog.show()
+            dialog.show(childFragmentManager, DialogRetoAleatorio.TAG)
             audioViewModel.playRetoRevealSound()
         } catch (e: Exception) {
             resetButton()

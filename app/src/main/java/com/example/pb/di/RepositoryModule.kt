@@ -1,6 +1,8 @@
 package com.example.pb.di
 
+import com.example.pb.data.api.PokemonApiService
 import com.example.pb.data.repository.RetosRepository
+import com.example.pb.repository.PokemonRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -18,5 +20,13 @@ object RepositoryModule {
         firestore: FirebaseFirestore
     ): RetosRepository {
         return RetosRepository(firestore)
+    }
+
+    @Provides
+    @Singleton
+    fun providePokemonRepository(
+        apiService: PokemonApiService
+    ): PokemonRepository {
+        return PokemonRepository(apiService)
     }
 }
