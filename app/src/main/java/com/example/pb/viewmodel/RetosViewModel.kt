@@ -13,6 +13,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
 /**
  * RetosViewModel — Contiene la lógica de negocio para gestionar los retos en Firebase Firestore.
  *
@@ -22,7 +25,11 @@ import kotlinx.coroutines.launch
  * Expone el estado de la UI mediante un [StateFlow] que el Fragment observa
  * de forma reactiva.
  */
-class RetosViewModel(private val repository: RetosRepository) : ViewModel() {
+@HiltViewModel
+class RetosViewModel @Inject constructor(
+    private val repository: RetosRepository,
+    private val firebaseAuth: FirebaseAuth
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<RetosUiState>(RetosUiState.Loading)
     val uiState: StateFlow<RetosUiState> = _uiState.asStateFlow()
@@ -59,7 +66,7 @@ class RetosViewModel(private val repository: RetosRepository) : ViewModel() {
     fun insertarReto(descripcion: String) {
         viewModelScope.launch {
             try {
-                val currentUid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+                val currentUid = firebaseAuth.currentUser?.uid ?: ""
                 val nuevoReto = Reto(
                     descripcion = descripcion,
                     uidUsuario = currentUid,
@@ -96,19 +103,6 @@ class RetosViewModel(private val repository: RetosRepository) : ViewModel() {
                 Log.e("RetosViewModel", "Error eliminando reto en Firestore: ${e.message}", e)
             }
         }
-    }
-}
-
-/**
- * Fábrica para instanciar [RetosViewModel] pasándole el repositorio.
- */
-class RetosViewModelFactory(private val repository: RetosRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(RetosViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return RetosViewModel(repository) as T
-        }
-        throw IllegalArgumentException("ViewModel desconocido")
     }
 }
 
