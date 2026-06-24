@@ -13,18 +13,18 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.pb.R
 import com.example.pb.data.model.Reto
-import com.example.pb.data.repository.RetosRepository
 import com.example.pb.databinding.FragmentRetosBinding
 import com.example.pb.ui.adapter.RetosAdapter
 import com.example.pb.viewmodel.AudioViewModel
 import com.example.pb.viewmodel.RetosUiState
 import com.example.pb.viewmodel.RetosViewModel
-import com.example.pb.viewmodel.RetosViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 /**
  * RetosFragment — Pantalla de gestión de retos con Firebase Firestore.
  */
+@AndroidEntryPoint
 class RetosFragment : Fragment() {
 
     private var _binding: FragmentRetosBinding? = null
@@ -32,9 +32,7 @@ class RetosFragment : Fragment() {
 
     private val audioViewModel: AudioViewModel by activityViewModels()
 
-    private val viewModel: RetosViewModel by viewModels {
-        RetosViewModelFactory(RetosRepository())
-    }
+    private val viewModel: RetosViewModel by viewModels()
 
     private lateinit var adapter: RetosAdapter
 

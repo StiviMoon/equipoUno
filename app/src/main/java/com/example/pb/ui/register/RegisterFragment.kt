@@ -13,7 +13,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.pb.R
 import com.example.pb.databinding.FragmentRegisterBinding
 import com.example.pb.viewmodel.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null

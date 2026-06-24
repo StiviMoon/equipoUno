@@ -13,7 +13,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.pb.R
 import com.example.pb.databinding.FragmentLoginBinding
 import com.example.pb.viewmodel.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null

@@ -12,21 +12,18 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.pb.data.model.Reto
-import com.example.pb.data.repository.RetosRepository
 import com.example.pb.databinding.DialogEditarRetoBinding
 import com.example.pb.viewmodel.RetosViewModel
-import com.example.pb.viewmodel.RetosViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditarRetoDialog : DialogFragment() {
 
     private var _binding: DialogEditarRetoBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: RetosViewModel by viewModels(
-        ownerProducer = { requireParentFragment() },
-        factoryProducer = {
-            RetosViewModelFactory(RetosRepository())
-        }
+        ownerProducer = { requireParentFragment() }
     )
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

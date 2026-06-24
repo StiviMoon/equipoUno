@@ -10,7 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.pb.R
 import com.example.pb.databinding.FragmentInstruccionesBinding
 import com.example.pb.viewmodel.AudioViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class InstruccionesFragment : Fragment() {
 
     private var _binding: FragmentInstruccionesBinding? = null
