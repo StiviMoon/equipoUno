@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,6 +35,9 @@ class RetosViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow<RetosUiState>(RetosUiState.Loading)
     val uiState: StateFlow<RetosUiState> = _uiState.asStateFlow()
+
+    private val _mensaje = MutableSharedFlow<String>()
+    val mensaje = _mensaje.asSharedFlow()
 
     init {
         cargarRetos()
@@ -101,6 +106,7 @@ class RetosViewModel @Inject constructor(
                 repository.deleteReto(reto.id)
             } catch (e: Exception) {
                 Log.e("RetosViewModel", "Error eliminando reto en Firestore: ${e.message}", e)
+                _mensaje.emit("No fue posible eliminar el reto. Intente nuevamente.")
             }
         }
     }
