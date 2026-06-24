@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.pb" />
+                  <option name="mobileSdkAppId" value="1:655938293145:android:d5d9d20e8e1a4add279708" />
+                  <option name="projectId" value="pico-botella-c9080" />
+                  <option name="projectNumber" value="655938293145" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

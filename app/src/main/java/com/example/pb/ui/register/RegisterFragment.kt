@@ -165,9 +165,11 @@ class RegisterFragment : Fragment() {
         authViewModel.authState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is AuthViewModel.AuthState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
                     binding.btnCrearCuenta.isEnabled = false
                 }
                 is AuthViewModel.AuthState.Success -> {
+                    binding.progressBar.visibility = View.GONE
                     binding.btnCrearCuenta.isEnabled = true
                     Toast.makeText(
                         requireContext(),
@@ -179,6 +181,7 @@ class RegisterFragment : Fragment() {
                     )
                 }
                 is AuthViewModel.AuthState.Error -> {
+                    binding.progressBar.visibility = View.GONE
                     binding.btnCrearCuenta.isEnabled = true
                     Toast.makeText(
                         requireContext(),
@@ -187,6 +190,7 @@ class RegisterFragment : Fragment() {
                     ).show()
                 }
                 is AuthViewModel.AuthState.Idle -> {
+                    binding.progressBar.visibility = View.GONE
                     binding.btnCrearCuenta.isEnabled = true
                 }
             }
