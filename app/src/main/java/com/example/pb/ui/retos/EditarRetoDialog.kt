@@ -11,24 +11,19 @@ import android.view.Window
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.example.pb.data.AppDatabase
+import com.example.pb.data.model.Reto
 import com.example.pb.databinding.DialogEditarRetoBinding
-import com.example.pb.model.Reto
-import com.example.pb.repository.RetoRepository
 import com.example.pb.viewmodel.RetosViewModel
-import com.example.pb.viewmodel.RetosViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditarRetoDialog : DialogFragment() {
 
     private var _binding: DialogEditarRetoBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: RetosViewModel by viewModels(
-        ownerProducer = { requireParentFragment() },
-        factoryProducer = {
-            val dao = AppDatabase.getInstance(requireContext()).retoDao()
-            RetosViewModelFactory(RetoRepository(dao))
-        }
+        ownerProducer = { requireParentFragment() }
     )
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -61,7 +56,7 @@ class EditarRetoDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Criterio 3: poblar EditText con descripción actual de la BD
-        val retoId = requireArguments().getInt(ARG_ID)
+        val retoId = requireArguments().getString(ARG_ID, "")
         val descripcionActual = requireArguments().getString(ARG_DESCRIPCION, "")
         binding.etReto.setText(descripcionActual)
         binding.etReto.setSelection(descripcionActual.length)
@@ -72,10 +67,12 @@ class EditarRetoDialog : DialogFragment() {
         // Criterios 5 y 6: Guardar siempre habilitado, guarda y actualiza lista
         binding.btnGuardar.setOnClickListener {
             val texto = binding.etReto.text.toString().trim()
-            if (texto.isNotBlank()) {
-                viewModel.editarReto(Reto(id = retoId, descripcion = texto))
-                dismiss()
+            if (texto.isBlank()) {
+                binding.etReto.error = "La descripción es obligatoria"
+                return@setOnClickListener
             }
+            viewModel.editarReto(Reto(id = retoId, descripcion = texto))
+            dismiss()
         }
     }
 

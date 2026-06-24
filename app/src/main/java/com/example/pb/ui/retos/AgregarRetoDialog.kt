@@ -14,24 +14,18 @@ import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.example.pb.data.AppDatabase
 import com.example.pb.databinding.DialogAgregarRetoBinding
-import com.example.pb.repository.RetoRepository
 import com.example.pb.viewmodel.RetosViewModel
-import com.example.pb.viewmodel.RetosViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AgregarRetoDialog : DialogFragment() {
 
     private var _binding: DialogAgregarRetoBinding? = null
     private val binding get() = _binding!!
 
-
     private val viewModel: RetosViewModel by viewModels(
-        ownerProducer = { requireParentFragment() },
-        factoryProducer = {
-            val dao = AppDatabase.getInstance(requireContext()).retoDao()
-            RetosViewModelFactory(RetoRepository(dao))
-        }
+        ownerProducer = { requireParentFragment() }
     )
 
     override fun onCreateView(
@@ -78,7 +72,6 @@ class AgregarRetoDialog : DialogFragment() {
         setupBotones()
     }
 
-
     private fun setupTextWatcher() {
         binding.etReto.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -97,11 +90,9 @@ class AgregarRetoDialog : DialogFragment() {
     }
 
     private fun setupBotones() {
-
         binding.btnCancelar.setOnClickListener {
             dismiss()
         }
-
 
         binding.btnGuardar.setOnClickListener {
             val descripcion = binding.etReto.text.toString().trim()

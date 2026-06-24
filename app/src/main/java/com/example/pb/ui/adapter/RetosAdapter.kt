@@ -1,15 +1,15 @@
-package com.example.pb.ui.retos
+package com.example.pb.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pb.data.model.Reto
 import com.example.pb.databinding.ItemRetoBinding
-import com.example.pb.model.Reto
 
 class RetosAdapter(
-    private val onEdit:   (Reto) -> Unit,
+    private val onEdit: (Reto) -> Unit,
     private val onDelete: (Reto) -> Unit
 ) : ListAdapter<Reto, RetosAdapter.RetoViewHolder>(RetoDiffCallback()) {
 
@@ -28,9 +28,7 @@ class RetosAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(reto: Reto) {
-
             binding.tvDescripcionReto.text = reto.descripcion
-
 
             binding.btnEditar.setOnClickListener {
                 it.animate().scaleX(0.85f).scaleY(0.85f).setDuration(100).withEndAction {
@@ -38,6 +36,7 @@ class RetosAdapter(
                     onEdit(reto)
                 }.start()
             }
+
             binding.btnEliminar.setOnClickListener {
                 it.animate().scaleX(0.85f).scaleY(0.85f).setDuration(100).withEndAction {
                     it.animate().scaleX(1f).scaleY(1f).setDuration(100).start()

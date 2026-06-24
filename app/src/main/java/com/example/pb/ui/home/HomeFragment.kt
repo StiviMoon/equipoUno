@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.pb.R
-import com.example.pb.data.AppDatabase
 import com.example.pb.databinding.FragmentHomeBinding
 import com.example.pb.repository.PokemonRepository
 import com.example.pb.utils.startAnim
@@ -28,12 +27,22 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private val audioViewModel: AudioViewModel by activityViewModels()
+
+    @Inject
+    lateinit var retosRepository: com.example.pb.data.repository.RetosRepository
+
+    @Inject
+    lateinit var pokemonRepository: PokemonRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,10 +87,9 @@ class HomeFragment : Fragment() {
         audioViewModel.pauseTemporarily()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            // Precargar reto de BD mientras gira+countdown (~5.7s)
-            val dao = AppDatabase.getInstance(requireContext()).retoDao()
-            val retoDeferred = async(Dispatchers.IO) { dao.getRandomReto() }
-            val pokemonUrl = PokemonRepository().getRandomPokemonImageUrl()
+            // Precargar reto de Firestore mientras gira+countdown (~5.7s)
+            val retoDeferred = async { retosRepository.getRandomReto() }
+            val pokemonUrl = pokemonRepository.getRandomPokemonImageUrl()
 
             // 1. Girar botella con sonido (HU11 C1, C2)
             audioViewModel.playSpinSound()
