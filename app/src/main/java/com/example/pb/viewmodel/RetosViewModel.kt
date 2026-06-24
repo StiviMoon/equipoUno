@@ -113,7 +113,6 @@ class RetosViewModel @Inject constructor(
             }
         }
     }
-
     fun fetchRandomReto() {
         _randomRetoState.value = RandomRetoState.Loading
         viewModelScope.launch {

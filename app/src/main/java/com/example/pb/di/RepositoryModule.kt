@@ -21,7 +21,6 @@ object RepositoryModule {
     ): RetosRepository {
         return RetosRepository(firestore)
     }
-
     @Provides
     @Singleton
     fun providePokemonRepository(
