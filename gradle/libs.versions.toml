@@ -17,6 +17,7 @@ coroutines = "1.9.0"
 fragment = "1.8.8"
 coil = "2.7.0"
 googleServices = "4.4.2"
+hilt = "2.59.2"
 
 
 [libraries]
@@ -41,9 +42,12 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
