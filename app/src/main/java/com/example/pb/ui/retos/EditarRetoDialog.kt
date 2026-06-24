@@ -67,10 +67,12 @@ class EditarRetoDialog : DialogFragment() {
         // Criterios 5 y 6: Guardar siempre habilitado, guarda y actualiza lista
         binding.btnGuardar.setOnClickListener {
             val texto = binding.etReto.text.toString().trim()
-            if (texto.isNotBlank()) {
-                viewModel.editarReto(Reto(id = retoId, descripcion = texto))
-                dismiss()
+            if (texto.isBlank()) {
+                binding.etReto.error = "La descripción es obligatoria"
+                return@setOnClickListener
             }
+            viewModel.editarReto(Reto(id = retoId, descripcion = texto))
+            dismiss()
         }
     }
 
