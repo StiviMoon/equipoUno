@@ -39,6 +39,9 @@ class RetosViewModel @Inject constructor(
     private val _mensaje = MutableSharedFlow<String>()
     val mensaje = _mensaje.asSharedFlow()
 
+    private val _randomRetoState = MutableStateFlow<RandomRetoState>(RandomRetoState.Idle)
+    val randomRetoState: StateFlow<RandomRetoState> = _randomRetoState.asStateFlow()
+
     init {
         cargarRetos()
     }
@@ -110,6 +113,27 @@ class RetosViewModel @Inject constructor(
             }
         }
     }
+
+    fun fetchRandomReto() {
+        _randomRetoState.value = RandomRetoState.Loading
+        viewModelScope.launch {
+            try {
+                val reto = repository.getRandomReto()
+                if (reto != null) {
+                    _randomRetoState.value = RandomRetoState.Success(reto)
+                } else {
+                    _randomRetoState.value = RandomRetoState.Empty
+                }
+            } catch (e: Exception) {
+                Log.e("RetosViewModel", "Error al obtener reto aleatorio: ${e.message}", e)
+                _randomRetoState.value = RandomRetoState.Error(e)
+            }
+        }
+    }
+
+    fun resetRandomRetoState() {
+        _randomRetoState.value = RandomRetoState.Idle
+    }
 }
 
 /**
@@ -120,4 +144,12 @@ sealed class RetosUiState {
     object Empty : RetosUiState()
     data class Success(val retos: List<Reto>) : RetosUiState()
     data class Error(val exception: Throwable) : RetosUiState()
+}
+
+sealed class RandomRetoState {
+    object Idle : RandomRetoState()
+    object Loading : RandomRetoState()
+    object Empty : RandomRetoState()
+    data class Success(val reto: Reto) : RandomRetoState()
+    data class Error(val exception: Throwable) : RandomRetoState()
 }
